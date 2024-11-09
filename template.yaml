@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 30
+
+Resources:
+  ProfileApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: com.application.todolist.LambdaHandler::handleRequest
+      Runtime: java21
+      AutoPublishAlias: production
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+          DB_URL: jdbc:postgresql://todolistdb.cnc8a0eaaxv6.us-east-1.rds.amazonaws.com:5432/todoDataBase
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-023f39afd303b7f52
+        SubnetIds:
+          - subnet-03a193b6ccec50426
+          - subnet-0706a571f8fc9d1b7
+          - subnet-065a3320ece12c679
+          - subnet-0184b5e656f9ba0ba
+          - subnet-077a1ff6afd1bba7b
+          - subnet-092a38d934a4430c1
+
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY

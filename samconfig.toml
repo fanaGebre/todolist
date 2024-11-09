@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "sam-todo"
+resolve_s3 = false
+s3_prefix = "sam-todo"
+region = "us-east-1"
+s3_bucket = "my-s3-bucket-aws"
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
